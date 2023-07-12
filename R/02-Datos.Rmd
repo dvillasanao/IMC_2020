@@ -1,0 +1,61 @@
+# Base de datos {.unlisted .unnumbered}
+
+**Se carga la base de datos**  
+
+
+```{r}
+load(file = paste0(here::here(), "/Bases/IMC_2020.RData")) 
+```
+
+<div style="height:500px;overflow:auto;">
+```{r, echo = FALSE}
+require(gt)
+tabla_2020 %>% 
+ rename("AÑO" = "ANIO") %>%
+  slice(1:15) %>%
+    gt() %>%
+     tab_header(title = "Indicadores simples de marginación",
+                 subtitle = "2020") %>%
+      fmt_number(columns = names(tabla_2020)[13:23], 
+                  decimals = 2) %>%
+       fmt_integer(columns = "POB_TOT", 
+                    sep_mark = " ") %>%
+        tab_options(heading.title.font.size = 12, 
+                    heading.subtitle.font.size = 10,
+                    table.font.names = 'montserrat',
+                    table.font.size = 8,
+                    data_row.padding = px(1)) %>%
+         tab_style(style = list(cell_text(align = "left",
+                                           weight = 'bold')),
+                    locations = list(cells_title(groups = c("title")))) %>%
+          tab_style(style = list(cell_text(align = "left")),
+                     locations = list(cells_title(groups = c("subtitle")))) %>%
+           cols_label(CVE_COL = md("**CVE_COL**"),
+                      ID_COL = md("**ID_COL**"),
+                      ID_INE_2020 = md("**ID_INE_2020**"),
+                      NOM_COLONIA = md("**NOM_COLONIA**"),
+                      CP = md("**CP**"),
+                      CLASIF = md("**CLASIF**"),
+                      CVE_ENT = md("**CVE_ENT**"),
+                      NOM_ENT = md("**NOM_ENT**"), 
+                      CVE_MUN = md("**CVE_MUN**"), 
+                      NOM_MUN = md("**NOM_MUN**"),
+                      POB_TOT = md("**POB_TOT**"), 
+                      AÑO = md("**AÑO**"), 
+                      P6A14NAE = md("**P6A14NAE**"),
+                      SBASC = md("**SBASC**"),
+                      PSDSS = md("**PSDSS**"),
+                      OVSDE = md("**OVSDE**"),
+                      OVSEE = md("**OVSEE**"),
+                      OVSAE = md("**OVSAE**"),
+                      OVPT= md("**OVPT**"),
+                      OVHAC = md("**OVHAC**"),
+                      OVSREF = md("**OVSREF**"),
+                      OVSINT = md("**OVSINT**"),
+                      OVSCEL = md("**OVSCEL**")) %>%
+         cols_width(starts_with("POB") ~ px(80), 
+                    starts_with("NOM") ~ px(180), 
+                    everything() ~ px(60)) %>%
+            as_raw_html() 
+```
+</div>
