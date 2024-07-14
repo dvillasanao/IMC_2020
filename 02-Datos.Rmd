@@ -56,7 +56,7 @@ tabla_2020 %>%
                       OVSCEL = md("**OVSCEL**")) %>%
          cols_width(starts_with("POB") ~ px(80), 
                     starts_with("NOM") ~ px(180), 
-                    starts_with("NOM_C") ~ px(360), 
+                    starts_with("NOM_COL") ~ px(260), 
                     everything() ~ px(60)) %>%
             as_raw_html() 
 ```
