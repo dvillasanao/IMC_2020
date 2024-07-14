@@ -32,7 +32,7 @@ Este índice tiene diversos propósitos:
 
 La importancia del índice de marginación a nivel de colonia urbana en las políticas públicas radica en su capacidad para proporcionar una visión detallada y precisa de las condiciones de marginación en las áreas urbanas. Permite una toma de decisiones más informada y basada en evidencia, facilitando la asignación adecuada de recursos y programas para abordar las desigualdades y promover el desarrollo inclusivo en las colonias más necesitadas. Además, al monitorear los cambios en el índice con el tiempo, se puede evaluar el impacto de las políticas implementadas y realizar ajustes necesarios para lograr una mayor equidad y bienestar en las áreas urbanas de México.     
 
-**Base de datos** de los tres años se encuentran disponibles en la página oficial de [CONAPO](https://www.gob.mx/conapo/documentos/indices-de-marginacion-2020-284372)   
+**Base de datos** se encuentran disponibles en la página oficial de [CONAPO](https://www.gob.mx/conapo/documentos/indices-de-marginacion-2020-284372)   
 
 **Datos abiertos de México** [datos.gob.mx](https://datos.gob.mx/busca/dataset/indice-de-marginacion-carencias-poblacionales-por-localidad-municipio-y-entidad)   
 
