@@ -39,11 +39,16 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# pkgdown site
-docs/
-
 # translation temp files
 po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+Output/
+Output/*.RData
+Graficos/
+_bookdown_files/
+Bases/*.xlsx
+img/*.html
+img/index_files/

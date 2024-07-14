@@ -1,0 +1,56 @@
+# Resumen  {.unlisted .unnumbered}
+
+```{r, echo = FALSE}
+load(file = paste0(here::here(), "/Output/IMC_2020.RData"))
+
+p <- DP2_2020 %>%
+      group_by(GM_2020) %>%
+       summarise(POB_TOT = sum(POB_TOT),
+                 GM = n())
+
+tabla <- p %>%
+          janitor::adorn_totals(fill = "-", where = "row")
+
+tabla %>% 
+ gt() %>%
+  tab_header(title = "Nacional: Población y unidades geograficas según el índice de marginación, 2020") %>%
+   tab_options(heading.title.font.size = 12, 
+               heading.subtitle.font.size = 10,
+               table.font.names = 'montserrat',
+               table.align = "center",
+               table.font.size = 8,
+               data_row.padding = px(1)) %>%
+     tab_style(style = list(cell_text(align = "left",
+                                      weight = 'bold')),
+               locations = list(cells_title(groups = c("title")))) %>%
+     tab_style(style = list(cell_text(align = "left")),
+               locations = list(cells_title(groups = c("subtitle")))) %>%
+     tab_style(style = list(cell_text(weight = 'bold')),
+               locations = cells_body(columns = everything(), rows = tidyselect::last_col())) %>%
+      cols_label(`POB_TOT` = md("**Población 2020**"),
+                 `GM` = md("**Colonias**"),
+                 `GM_2020` = md("**Grados**")) %>%
+       fmt_integer(columns = c(2:3), sep_mark = " ") %>%
+        tab_spanner(label = "2020",
+                    columns = c(2:3)) %>%
+         as_raw_html() 
+```
+
+
+
+## Mapa a nivel colonia {-}
+
+
+```{r, echo=FALSE, out.width='100%', warning=FALSE, message=FALSE}
+p <- readRDS(file = paste0(here::here(),"/Output/Mapa.rds"))
+p
+```
+
+
+## Comparación en el tiempo {-}
+
+<div style="height:500px;">
+```{r, echo=FALSE, out.width='100%'}
+readRDS(paste0(here::here(), "/Output/Mapas_2010-2020.rds"))
+```
+</div> 

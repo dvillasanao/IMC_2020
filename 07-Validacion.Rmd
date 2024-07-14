@@ -1,0 +1,187 @@
+# Validación de datos  {.unlisted .unnumbered}
+
+## Variables sort {-}
+
+**Se crea un data.frame de acuerdo al orden de importancia de las variables**
+
+```{r}
+Variables_sort <- ind_2020$variables_sort
+```
+
+```{r, echo = FALSE}
+tabla <- Variables_sort %>%
+          as.data.frame() %>%
+           rename("Ind_2020" = ".")
+
+tabla %>%
+ gt() %>%
+  tab_header(title = "Variables sort") %>%
+   tab_options(heading.title.font.size = 12, 
+               heading.align = "center",
+               heading.subtitle.font.size = 10,
+               table.align = "center",
+               table.font.names = 'montserrat',
+               table.font.size = 8,
+               data_row.padding = px(1)) %>%
+    tab_style(style = list(cell_text(align = "center",
+                                      weight = 'bold')),
+               locations = list(cells_title(groups = c("title")))) %>%
+      as_raw_html() 
+```
+
+
+## Coeficiente de correlación {-}  
+
+El coeficiente de correlación es una medida que se utiliza para jerarquizar a los indicadores simples de acuerdo con el grado de correlación absoluta con respecto al indicador sintético resultante, es decir, ayuda a visualizar que variable tiene un mejor o peor apego con el fenómeno.     
+
+**Se crea un data.frame de acuerdo a la correlación de cada variable con el indicador sintético (DP2)**
+
+```{r}
+cor.coeff <- ind_2020$cor.coeff
+colnames(cor.coeff) <- c("cor.coeff")
+```
+
+
+```{r, echo = FALSE}
+tabla <- cor.coeff %>%
+          as.data.frame() %>%
+          tibble::rownames_to_column(var = "Ind_2020")
+
+tabla %>%
+  gt() %>%
+   tab_header(title = "Correlation Coefficient") %>%
+    tab_options(heading.title.font.size = 12, 
+                heading.align = "center",
+                heading.subtitle.font.size = 10,
+                table.align = "center",
+                table.font.names = 'montserrat',
+                table.font.size = 8,
+                data_row.padding = px(1)) %>%
+      tab_style(style = list(cell_text(align = "center",
+                                       weight = 'bold')),
+                locations = list(cells_title(groups = c("title")))) %>%
+       fmt_number(columns = c(2), decimals = 3) %>% 
+       cols_label(`Ind_2020` = md("**Ind_2020**"), 
+                  `cor.coeff` = md("**cor.coeff**")) %>%
+        as_raw_html()                          
+```
+
+## Factor de corrector  {-}
+
+El factor corrector, como se mencionó anteriormente, indica la proporción de información con la que contribuye el indicador simple al nuevo índice sintético, además, evita la duplicidad e incorpora información útil que retiene cada indicador simple.     
+
+**Se crea un data.frame de acuerdo al factor corrector de cada indicador parcial**
+
+```{r}
+correction_factors <- ind_2020$correction_factors %>% 
+                       as.data.frame() %>%
+                        rename("Correction Factor" = ".")
+```
+
+
+```{r, echo = FALSE}
+tabla <- correction_factors %>%
+          as.data.frame() %>%
+           tibble::rownames_to_column(var = "Ind_2020")
+
+tabla %>%
+  gt() %>%
+   tab_header(title = "Correction Factors") %>%
+    tab_options(heading.title.font.size = 12, 
+                heading.align = "center",
+                heading.subtitle.font.size = 10,
+                table.align = "center",
+                table.font.names = 'montserrat',
+                table.font.size = 8,
+                data_row.padding = px(1)) %>%
+      tab_style(style = list(cell_text(align = "center",
+                                       weight = 'bold')),
+                locations = list(cells_title(groups = c("title")))) %>%
+       fmt_number(columns = c(2), decimals = 3) %>% 
+       cols_label(`Ind_2020` = md("**Ind_2020**"), 
+                  `Correction Factor` = md("**Correction Factor**")) %>%
+        as_raw_html()                         
+```
+
+
+## Coeficiente de Discriminación  {-}
+
+El coeficiente de discriminación de Ivanovic mide el poder discriminante de la variable $j$ en el conjunto de observaciones $i$. 
+
+$$CD_{j}=\frac{2}{m\left(m-1\right)}\sum_{i,l>i}^{k_{j}}m_{ij}m_{lj}\left|\frac{x_{ij}-x_{lj}}{{\overline{X}}_{i}}\right|$$
+
+donde: 
+
+$\circ\:m_{ij}$: El número de observaciones de la variable $x_{j}$    
+$\circ\:k_{j}$: El número de diferentes valores que toma $x_{i}$ en el conjunto $j$.     
+
+
+Esta medida está comprendida entre $[0, 2]$. Si una variable toma el mismo valor para todos los estados, el `CD` vale cero, indicando que posee un valor nulo de poder discriminante. Por el contrario, si una variable toma el valor teórico de máximo poder discriminante, el discriminante de la variable es total.   
+
+
+**Se crea un data.frame de acuerdo al Coeficiente de discriminación (CD) de cada indicador parcial**
+
+```{r}
+discrimination_coefficient <- ind_2020$discrimination.coefficient %>% 
+                               as.data.frame() %>%
+                                rename("Discrimination Coefficient" = ".")
+```
+
+
+```{r, echo = FALSE}
+tabla <- discrimination_coefficient %>%
+          as.data.frame() %>%
+           tibble::rownames_to_column(var = "Ind_2020")
+tabla %>%
+ gt() %>%
+  tab_header(title = "Discrimination Coefficient") %>%
+   tab_options(heading.title.font.size = 12, 
+               heading.align = "center",
+               heading.subtitle.font.size = 10,
+               table.align = "center",
+               table.font.names = 'montserrat',
+               table.font.size = 8,
+               data_row.padding = px(1)) %>%
+      tab_style(style = list(cell_text(align = "center",
+                                       weight = 'bold')),
+                locations = list(cells_title(groups = c("title")))) %>%
+       fmt_number(columns = c(2), decimals = 3) %>% 
+       cols_label(`Ind_2020` = md("**Ind_2020**"),
+                  `Discrimination Coefficient` = md("**Discrimination Coefficient**")) %>%
+        as_raw_html() 
+```
+
+## “Cantidad de Información Global de Ivanovic Pena Relativa Individual” {-}
+
+$$\alpha_{i}=\frac{CD_{i}\left(1-R^{2}_{i,i-1,...,1} \right)}{\sum_{i=1}^{n}CD_{i} \left(1-R^{2}_{i,i-1,...,1} \right)}$$
+Esta medida, comprendida entre 0 y 1, combina la información útil y el poder discriminante de cada indicador simple y mide la cantidad de información (combinada) relativa que aporta individualmente cada indicador simple, cuando entra de forma ordenada a formar parte del indicador sintético DP2. La suma de todos los valores de $\alpha_{i}$ es la unidad. [Zarsosa 1996, págs 158-174]      
+
+```{r}
+alpha <- correction_factors * discrimination_coefficient/sum(correction_factors * discrimination_coefficient)
+colnames(alpha) <- c("alpha")
+```
+
+```{r, echo = FALSE}
+tabla <- alpha %>%
+          as.data.frame() %>%
+           tibble::rownames_to_column(var = "Ind_2020")
+
+tabla %>%
+  gt() %>%
+   tab_header(title = md("Cantidad de Información Global de Ivanovic Pena Relativa Individual")) %>%
+    tab_options(heading.title.font.size = 11, 
+                heading.align = "center",
+                heading.subtitle.font.size = 10,
+                table.align = "center",
+                table.font.names = 'montserrat',
+                table.font.size = 8,
+                data_row.padding = px(1)) %>%
+      tab_style(style = list(cell_text(align = "center",
+                                       weight = 'bold')),
+                locations = list(cells_title(groups = c("title")))) %>%
+       fmt_number(columns = c(2), decimals = 3) %>% 
+       cols_label(`Ind_2020` = md("**Ind_2020**"),
+                  `alpha` = md("**alpha**")) %>%
+        as_raw_html() 
+```
+
