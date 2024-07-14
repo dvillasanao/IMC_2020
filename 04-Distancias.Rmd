@@ -11,10 +11,10 @@ La Distancia $DP_{2}$, es un indicador sintético, definido por el profesor `J. 
 
 Sean:   
 
-$\:\:\circ\:r$, el número de colonias;  
+$\:\:\circ\:r$, el número de municipios;  
 $\:\:\circ\:n$, el número de variables;  
-$\:\:\circ\:x_{ij}$, el valor de la variable j en la colonia i;  
-$\:\:\circ\:\sigma_{j}$, La Desviación Típica de la variable j;   
+$\:\:\circ\:x_{ij}$, el valor de la variable j en la AGEB $i$;  
+$\:\:\circ\:\sigma_{j}$, La Desviación Típica de la variable $j$;   
 $\:\:\circ\:R^{2}_{i,i-1,...,1}$ el Coeficiente de Determinación en la Regresión de $X_{i}$ sobre $X_{i-1},X_{i-2},...,X_{1}$. 
 
 Se define la $Distancia-P_{2}$ de la forma:    
@@ -25,7 +25,7 @@ DP_{2}=\sum^{n}_{i=1}\frac{d_{i}}{\sigma_{i}}(1-R^{2}_{i,i-1,...,1})\:\:;\;\;con
 
 Donde:     
 
-$\:\:\circ\:d_{i} = d_{i}(r,*) = |x_{ri}-x_{*i}|$ |: es la distancia de la j-ésima variable de la colonia $r$ con respecto a la base de referencia $x_{*}=(x_{*1}, x_{*2},..., x_{*n})$. Tomando como punto de referencia el valor mínimo de la variable, siendo esta la peor situación teórica,      
+$\:\:\circ\:d_{i} = d_{i}(r,*) = |x_{ri}-x_{*i}|$ |: es la distancia de la j-ésima variable del municipio $r$ con respecto a la base de referencia $x_{*}=(x_{*1}, x_{*2},..., x_{*n})$. Tomando como punto de referencia el valor mínimo de la variable, siendo esta la peor situación teórica,      
 
  $\:\:\circ\:\sigma_{i}$ : es la desviación estándar de la variable $𝑗$,     
  
@@ -38,18 +38,21 @@ $\:\:\circ\:R^{2}_{1}=0$; porque la primera componente aporta toda la informaci�
 El $DP_{2}$ cumple con las siguientes propiedades: no negatividad, homogeneidad, conmutatividad, desigualdad triangular, existencia y determinación, monotonía, unicidad, transitividad, no duplicidad de información, invariancia al cambio de origen y/o de escala en las unidades y exhaustividad.      
 
 
-El orden de entrada de las variables
+El orden de entrada de las variables   
 
 ```{r}
 # Se multiplica por -1, debido a que son indicadores de carencia 
 assign("DP2_datos_2020", -1 * tabla_2020[13:23])  
 ```
 
+Para asegurar las propiedades del indicador sintético, un aumento en los indicadores simples implica un aumento en la carencia de los servicios, lo que implicaría una disminución de la calidad de vida, por lo que se multiplica cada indicador por **-1**, de esta forma, un aumento en la variable supone una mejora en la calidad de vida.    
 
-## Base de referencia  {-}     
 
-Se toma como base de referencia el valor del mínimo del `2010 - 2020`, ya que este tipo de cambio permite la comparabilidad en el tiempo.  
+## Base de referencia  {-}
 
+Se define al valor de referencia para cada uno de los indicadores parciales, con la finalidad de hacer comparaciones entre las diferentes unidades espaciales (Colonias). Siendo este el valor mínimo de cada indicador simple como referencia, representado como la “situación no deseada”. Como resultado, un valor alto implicaría una distancia alejada con respecto a una situación teórica “situación no deseada”. Por lo tanto $d_{ij}$ mide la distancia entre el indicador parcial $j$ en la entidad $i$ y su valor de referencia.    
+
+Se toma como base de referencia el valor del mínimo del año `2020`, ya que este tipo de cambio permitirá la comparabilidad en el tiempo.    
 
 ```{r}
 #Base de referencia 2010 - 2020
@@ -71,12 +74,12 @@ minRV %>%
     tab_header(title = "Base de referencia") %>%
      fmt_number(columns = names(tabla_2020)[13:23], 
                 decimals = 2) %>%
-      tab_options(heading.title.font.size = 12, 
+      tab_options(heading.title.font.size = 14, 
                   heading.align = "center",
-                  heading.subtitle.font.size = 10,
+                  heading.subtitle.font.size = 12,
                   table.align = "center",
-                  table.font.names = 'montserrat',
-                  table.font.size = 8) %>%
+                  table.font.names = 'Century Gothic',
+                  table.font.size = 10) %>%
        tab_style(style = list(cell_text(align = "center",
                                          weight = 'bold')),
                   locations = list(cells_title(groups = c("title")))) %>%
@@ -109,7 +112,7 @@ ind_2020 <- p2distance(matriz = as.matrix(DP2_datos_2020),
                          iterations = 50)
 ```
 
-Total de iteraciones 
+**Total de iteraciones**
 
 ```{r, collapse=TRUE}
 iteration <- ind_2020[["iteration"]]
@@ -129,11 +132,11 @@ tabla %>%
   gt() %>%
    tab_header(title = "Número de iteraciones") %>%
     fmt_integer(columns = "iteraciones") %>%
-     tab_options(heading.title.font.size = 12, 
-                 heading.subtitle.font.size = 10,
-                 table.font.names = 'montserrat',
+     tab_options(heading.title.font.size = 14, 
+                 heading.subtitle.font.size = 12,
+                 table.font.names = 'Century Gothic',
                  table.align = "center",
-                 table.font.size = 8,
+                 table.font.size = 10,
                  data_row.padding = px(1)) %>%
       tab_style(style = list(cell_text(align = "left",
                                         weight = 'bold')),

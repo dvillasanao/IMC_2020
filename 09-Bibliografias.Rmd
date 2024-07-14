@@ -9,6 +9,15 @@ Dalenius, T. (1950). The problem of optimum stratification. Scandinavian Actuari
 __________ y Hodges, J. L., Jr. (1959). Minimum variance stratification. Journal of the American Statistical Association, 54, 88-101.      
 Gunning, P. y Horgan, J. M. (2004). A new algorithm for the construction of stratum boundaries in skewed populations. Survey Methodology, 30 (2), 159–166.   
 
+INEGI [Instituto Nacional de Estadística y Geografía]. (2009). Censo de Población y Vivienda 2010. Manual de
+cartografía geoestadística. Recuperado de: https://www.inegi.org.mx/contenidos/temas/mapas/mg/metadatos/manual_cartografia_censal.pdf   
+__________. (2010). Sistema Nacional de Información Estadística y Geográfica: Laboratorio de Microdatos. Censo
+de Población y Vivienda 2010.   
+__________. (2021a). Sistema Nacional de Información Estadística y Geográfica: Laboratorio de Microdatos. Censo
+de Población y Vivienda 2020.    
+__________. (2021b). Marco Geoestadístico Nacional 2020. Censo de Población y Vivienda 2020. Recuperado de:
+https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=889463807469    
+
 Pena Trapero, J. B. (1977). Problemas de la medición del bienestar y conceptos afines. Una aplicación al Caso Español. I. N. E: Madrid.   
 
 Somarriba, N. y Pena, B. (2009). Synthetic Indicators of Quality of Life in Europe. Social Indicators Research. Recuperado de: https://doi.org/10.1007/s11205-008-9356-y    
@@ -29,5 +38,5 @@ sesion_info <- devtools::session_info()
 ```{r, echo = FALSE}
 kable(dplyr::select(tibble::as_tibble(sesion_info$packages %>% dplyr::filter(attached == TRUE)),
                     c(package, loadedversion, source))) %>%
-   kable_classic(full_width = TRUE, html_font = "montserrat", font_size = 10) 
+   kable_classic(full_width = TRUE, html_font = "Century Gothic", font_size = 10) 
 ```

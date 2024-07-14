@@ -7,7 +7,7 @@ El proceso de normalización consiste en:
 $${DP}_2normalizado=\frac{{DP}_2^i-\min({DP}_2)}{\max({DP}_2)-\min({DP}_2)},$$
 donde:
 
-$\circ \: {DP}_{2}^{i}$: es el valor del índice de marginación de la colonia $i$,   
+$\circ \: {DP}_{2}^{i}$: es el valor del índice de marginación de la localidad $i$,   
 $\circ \: min ({DP}_{2})$: es el valor mínimo o peor escenario que puede tomar el índice, y   
 $\circ \: max ({DP}_{2})$: es el valor máximo u objetivo que puede tomar el índice.  
 
@@ -18,6 +18,13 @@ $\circ \: max ({DP}_{2})$: es el valor máximo u objetivo que puede tomar el ín
 **Estimado insesgado de la varianza poblacional**      
 
 $$s^{2} = \frac{1}{n-1}\left(x_{i}-\bar{x}\right)^{2} = \frac{\sum_{i=1}^{n}(x_{i}^{2})}{n-1} - \frac{\sum_{i=1}^{n}(x_{i})^{2}}{(n-1)\: n } = \left(\frac{n-1}{n}\right)s_{n}^{2} $$
+
+Se calcula la desviación estándar muestral y su inversa para un conjunto de indicadores simples. Para cada elemento:   
+- Extrae las columnas 13 a 23 del data frame correspondiente (`DP2_2020`).  
+- Calcula la desviación estándar para cada una de estas columnas.  
+- Ajusta la desviación estándar para obtener la desviación estándar muestral.  
+- Calcula la inversa de la desviación estándar muestral.  
+- Almacena los resultados en un data frame `desvest`. 
 
 ```{r}
 # Desviación estandar de los indicadores
@@ -38,13 +45,13 @@ tabla <- desvest %>%
 tabla %>%
  gt() %>%
   tab_header(title = "Desviación estándar") %>% 
-   tab_options(heading.title.font.size = 12, 
+   tab_options(heading.title.font.size = 14, 
                heading.align = "center",
                heading.padding = 5,
-               heading.subtitle.font.size = 10,
+               heading.subtitle.font.size = 12,
                table.align = "center",
-               table.font.names = 'montserrat',
-               table.font.size = 8,
+               table.font.names = 'Century Gothic',
+               table.font.size = 10,
                data_row.padding = px(1)) %>%
     tab_style(style = list(cell_text(align = "center",
                                       weight = 'bold')),
@@ -61,6 +68,11 @@ tabla %>%
 Para este tipo de cálculo es necesario conocer los puntos más extremos que puede tomar el índice en el año de observación. De antemano, se sabe que cada indicador simple toma valores de cero a 100 y, además, el método DP2 ya proporcionó el orden de entrada de las variables. Usando estos criterios se estiman los puntos focales extremos que puede tomar el índice de marginación. Se sabe que la peor situación es cuando una unidad de análisis toca todos y cada uno de los valores mínimos del vector base de referencia común, esto sería el peor escenario de marginación y tomaría un valor de cero. En sentido contrario, el valor máximo sería la situación con la menor marginación.   
 
 **Escenarios del mínimo y máximo valor en el índice DP2**  
+
+Se calculan los valores mínimo y máximo del índice `DP2` para diferentes escenarios y años. Para cada elemento, se calcula:   
+- `Valor mínimo`: Calcula la diferencia absoluta entre minRV_2010 y vector_minimo, ajusta con la inversa de la desviación estándar muestral y los factores de corrección, y suma las filas para obtener el DP2.   
+- `Valor máximo`: Calcula la diferencia absoluta entre minRV_2010 y un vector de ceros (vector_maximo), ajusta con la inversa de la desviación estándar muestral y los factores de corrección, y suma las filas para obtener el DP2.    
+
 
 ```{r}
 ## Mínimo valor del DP2
@@ -84,7 +96,9 @@ maximo <- data.frame(AÑO = 2020, Escenario = "Máximo", maximo, DP2 = rowSums(m
 
 ## Índice normalizado {-}
 
-**Se guarda la base de datos con el índice normalizado**  
+**Se guarda la base de datos con el índice normalizado**   
+
+Se calcula un nuevo indicador denominado `IMN para el año `2020`, normalizando el índice DP2 entre sus valores mínimos y máximos.    
 
 ```{r}
 DP2_2020 <- DP2_2020 %>%  
@@ -97,16 +111,16 @@ DP2_2020 <- DP2_2020 %>%
 #Tabla final
 DP2_2020 %>% 
  rename("AÑO" = "ANIO") %>%
-  slice(1:15) %>%
+  slice(1:20) %>%
   gt() %>%
    tab_header(title = "Índice de marginación a nivel colonia, 2020") %>%
-    tab_options(heading.title.font.size = 12, 
+    tab_options(heading.title.font.size = 14, 
                 heading.align = "center",
-                heading.subtitle.font.size = 10,
+                heading.subtitle.font.size = 12,
                 table.align = "center",
                 column_labels.font.weight = "bold",
-                table.font.names = 'montserrat',
-                table.font.size = 9,
+                table.font.names = 'Century Gothic',
+                table.font.size = 10,
                 data_row.padding = px(1)) %>%
      tab_style(style = list(cell_text(align = "center",
                                        weight = 'bold')),
@@ -116,6 +130,7 @@ DP2_2020 %>%
         fmt_number(columns = c(24, 26), decimals = 3) %>%
          cols_width(starts_with("POB") ~ px(100), 
                     starts_with("NOM") ~ px(200), 
+                    starts_with("NOM_COLONIA") ~ px(260), 
                     everything() ~ px(60)) %>%
            as_raw_html()
 ```

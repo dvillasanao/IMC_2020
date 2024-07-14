@@ -18,17 +18,17 @@ csl: chicago-fullnote-bibliography.csl
 
 El índice de marginación a nivel de colonia urbana, elaborado por el Consejo Nacional de Población (CONAPO) en México, es una herramienta crucial para comprender y abordar las desigualdades socioeconómicas en el ámbito urbano. Este índice proporciona información detallada sobre las condiciones de marginación en las colonias de las ciudades, lo que permite identificar las áreas con mayores necesidades y focalizar los esfuerzos de desarrollo y políticas públicas de manera más efectiva.   
 
-El índice de marginación a nivel de colonia urbana se construye considerando múltiples dimensiones, como el acceso a servicios básicos, la vivienda, la educación, la salud, y infraestructura. También se incluyen indicadores de ingresos y calidad de vida para capturar de manera integral las condiciones de marginación en estas áreas urbanas.  
+Para el año 2020, se dio a la tarea de estimar por primera vez un Índice de marginación urbana por colonia, como una forma de ofrecer un producto que condensa once formas de exclusión de los beneficios del desarrollo y que permite observar territorialmente la intensidad de la marginación en las colonias de las urbes de México. Este índice se construye considerando múltiples dimensiones, como el acceso a servicios básicos, la vivienda, la educación, la salud, y infraestructura.    
 
-Este índice tiene diversos propósitos:     
+Este índice tiene diversos propósitos:      
 
-- Identificación de colonias marginadas: El índice permite identificar las colonias urbanas con mayores niveles de marginación y pobreza. Esto es fundamental para dirigir los recursos y programas hacia las áreas que requieren una atención prioritaria.      
+- **Identificación de colonias marginadas**: El índice permite identificar las colonias urbanas con mayores niveles de marginación y pobreza. Esto es fundamental para dirigir los recursos y programas hacia las áreas que requieren una atención prioritaria.      
 
-- Distribución de recursos: El índice de marginación a nivel de colonia ayuda a asignar recursos de manera equitativa, tanto a nivel municipal como estatal y federal. Permite que los fondos públicos se destinen de manera adecuada a las colonias con mayores necesidades, garantizando una distribución más justa de los recursos.    
+- **Distribución de recursos**: El índice de marginación a nivel de colonia ayuda a asignar recursos de manera equitativa, tanto a nivel municipal como estatal y federal. Permite que los fondos públicos se destinen de manera adecuada a las colonias con mayores necesidades, garantizando una distribución más justa de los recursos.    
 
-- Planificación urbana y desarrollo local: El índice de marginación es utilizado en la planificación del desarrollo urbano y local. Ayuda a identificar las áreas que requieren inversiones en infraestructura, servicios básicos y equipamiento comunitario, fomentando un desarrollo más equilibrado y sostenible.   
+- **Planificación urbana y desarrollo local**: El índice de marginación es utilizado en la planificación del desarrollo urbano y local. Ayuda a identificar las áreas que requieren inversiones en infraestructura, servicios básicos y equipamiento comunitario, fomentando un desarrollo más equilibrado y sostenible.   
 
-- Evaluación de políticas públicas: El índice de marginación también permite evaluar el impacto de las políticas y programas implementados para reducir la pobreza y la desigualdad en las colonias urbanas. Ayuda a monitorear el progreso a lo largo del tiempo y realizar ajustes necesarios en las estrategias en curso.    
+- **Evaluación de políticas públicas**: El índice de marginación también permite evaluar el impacto de las políticas y programas implementados para reducir la pobreza y la desigualdad en las colonias urbanas. Ayuda a monitorear el progreso a lo largo del tiempo y realizar ajustes necesarios en las estrategias en curso.    
 
 La importancia del índice de marginación a nivel de colonia urbana en las políticas públicas radica en su capacidad para proporcionar una visión detallada y precisa de las condiciones de marginación en las áreas urbanas. Permite una toma de decisiones más informada y basada en evidencia, facilitando la asignación adecuada de recursos y programas para abordar las desigualdades y promover el desarrollo inclusivo en las colonias más necesitadas. Además, al monitorear los cambios en el índice con el tiempo, se puede evaluar el impacto de las políticas implementadas y realizar ajustes necesarios para lograr una mayor equidad y bienestar en las áreas urbanas de México.     
 
@@ -36,7 +36,13 @@ La importancia del índice de marginación a nivel de colonia urbana en las pol�
 
 **Datos abiertos de México** [datos.gob.mx](https://datos.gob.mx/busca/dataset/indice-de-marginacion-carencias-poblacionales-por-localidad-municipio-y-entidad)   
 
-**Publicación** [Índice De Marginación Por Entidad Federativa Y Municipio 2020](https://www.gob.mx/cms/uploads/attachment/file/835461/Indices_Coleccion_280623_localidad.pdf).    
+**Publicación** [Índice De Marginación Por Entidad Federativa Y Municipio 2020](https://www.gob.mx/conapo/documentos/indices-de-marginacion-2020-284372).    
+
+**Índice de marginación a nivel estatal** [Bookdown](https://dvillasanao.github.io/IME_2010_2020/)   
+**Índice de marginación a nivel municipal** [Bookdown](https://dvillasanao.github.io/IMM_2010-2020/)   
+**Índice de marginación a nivel localidad** [Bookdown](https://dvillasanao.github.io/IML_2010_2020/)   
+**Índice de marginación a nivel AGEB** [Bookdown](https://dvillasanao.github.io/IML_2010-2020/)   
+**Índice de marginación a nivel Colonia** [Bookdown](https://dvillasanao.github.io/IMC_2020/)     
 
 ```{r, include=FALSE}
 # automatically create a bib database for R packages
@@ -44,23 +50,21 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRU
                        eval = TRUE)
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 setwd(rprojroot::find_rstudio_root_file())
-setwd(here::here())
 ```  
 
 ```{r, echo = FALSE, results=FALSE}
-#install.packages(pkgs = c("showtext", "extrafont"), repos = "https://cran.rstudio.com")
-## Font style 
+#Font Stlye
 require(showtext)
 library(extrafont)
 # activar showtext
-showtext_auto()
-font_add_google("Montserrat", "montserrat")
-font_add_google("Raleway", "Raleway")
+windowsFonts()
+#Century Gothic
 ```
 
 
 ```{r, echo = FALSE, results=FALSE}
 # Librerías que se usaron en el documento
+require(Cairo)
 require(ggplot2)
 require(ggridges)
 require(grDevices)
@@ -79,10 +83,14 @@ require(stringr)
 require(corrplot)
 require(forcats)
 require(gt)
-require(sf)
-require(rgdal)          #Para importar shapefiles.
+require(rgdal)      
 require(geojsonio)
 require(jsonlite)
+require(leaflet)
+require(htmlwidgets)
+require(leaflet.extras)
+require(mapview)
+require(leaflet.providers)
 ```
 
 ```{r include=FALSE, eval=FALSE}
@@ -107,11 +115,11 @@ tabla <- p %>%
 tabla %>% 
  gt() %>%
   tab_header(title = "Nacional: Población y unidades geograficas según el índice de marginación, 2020") %>%
-   tab_options(heading.title.font.size = 12, 
-               heading.subtitle.font.size = 10,
-               table.font.names = 'montserrat',
+   tab_options(heading.title.font.size = 14, 
+               heading.subtitle.font.size = 12,
+               table.font.names = 'Century Gothic',
                table.align = "center",
-               table.font.size = 8,
+               table.font.size = 10,
                data_row.padding = px(1)) %>%
      tab_style(style = list(cell_text(align = "left",
                                       weight = 'bold')),

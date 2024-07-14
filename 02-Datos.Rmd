@@ -1,18 +1,19 @@
 # Base de datos {.unlisted .unnumbered}
 
-**Se carga la base de datos**  
+El Índice de marginación urbana por colonia 2020 se desarrolló con información socioeconómica a nivel de AGEB urbana proveniente del Censo de Población y Vivienda 2020 mediante una petición de información al Laboratorio de Microdatos del INEGI (2010 y 2021a). Esta solicitud sirvió para la estimación de los índices de marginación de 50 790 AGEB urbanas. Con los datos absolutos de estas AGEB urbanas se estimaron los indicadores socioeconómicos a nivel de colonias. 
 
+**A continuación, se carga la base de datos correspondiente al índice de marginación por colonia (2020).** 
 
 ```{r}
 load(file = paste0(here::here(), "/Bases/IMC_2020.RData")) 
 ```
 
-<div style="height:500px;overflow:auto;">
+<div style="height:700px;overflow:auto;">
 ```{r, echo = FALSE}
 require(gt)
 tabla_2020 %>% 
  rename("AÑO" = "ANIO") %>%
-  slice(1:15) %>%
+  slice(1:20) %>%
     gt() %>%
      tab_header(title = "Indicadores simples de marginación",
                  subtitle = "2020") %>%
@@ -20,10 +21,10 @@ tabla_2020 %>%
                   decimals = 2) %>%
        fmt_integer(columns = "POB_TOT", 
                     sep_mark = " ") %>%
-        tab_options(heading.title.font.size = 12, 
-                    heading.subtitle.font.size = 10,
-                    table.font.names = 'montserrat',
-                    table.font.size = 8,
+        tab_options(heading.title.font.size = 14, 
+                    heading.subtitle.font.size = 12,
+                    table.font.names = 'Century Gothic',
+                    table.font.size = 10,
                     data_row.padding = px(1)) %>%
          tab_style(style = list(cell_text(align = "left",
                                            weight = 'bold')),
@@ -55,6 +56,7 @@ tabla_2020 %>%
                       OVSCEL = md("**OVSCEL**")) %>%
          cols_width(starts_with("POB") ~ px(80), 
                     starts_with("NOM") ~ px(180), 
+                    starts_with("NOM_C") ~ px(360), 
                     everything() ~ px(60)) %>%
             as_raw_html() 
 ```
