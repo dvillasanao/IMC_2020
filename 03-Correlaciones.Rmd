@@ -25,7 +25,7 @@ corrplot(cor(tabla_2020[,13:23]) ,
 ```
 
 <a href="https://raw.githubusercontent.com/dvillasanao/IMC_2020/main/img/correlaciones_2020.png" data-lightbox="image-1" data-title="correlaciones">
-```{r, echo = FALSE, fig.width=12, fig.height=12, out.width='100%'}
+```{r, echo = FALSE, fig.width=12, fig.height=12, out.width='80%'}
 require(knitr)
 knitr::include_graphics(paste0(here::here(), "/img/correlaciones_2020.png"))
 ```
