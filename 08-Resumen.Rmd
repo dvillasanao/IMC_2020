@@ -42,11 +42,9 @@ La estimación del índice de marginación por colonia señala que poco más de 
 
 **Zona metropolitana del Valle de México**     
 
-```{r, echo=FALSE, out.width='100%', warning=FALSE, message=FALSE, eval = FALSE}
-p <- readRDS(file = paste0(here::here(),"/Output/Mapa.rds"))
-p
-```
+<!--html_preserve-->
+<iframe src = "https://highchart-imarginacionxcolonia2020.netlify.app/" position= "absolute"; top="0"; left="0"; bottom="0"; right="0"; width="730px"; height="700px"; border="none"; margin="0"; padding="0";  frameborder="0"; overflow="hidden"; display= "block";  min-height= "100vh";>"</iframe>
+<!--/html_preserve-->
 
-## Mapa dinámico de colonias {-}
 
 
